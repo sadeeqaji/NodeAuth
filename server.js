@@ -1,5 +1,4 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const http = require("http");
 const cors = require("cors");
 const morgan = require("morgan");
@@ -17,13 +16,15 @@ const port = process.env.Port || 5000
 //middlewares
 
 app.use(express.json());
-app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 app.use(cors());
 app.use(morgan('dev'));
 
 app.use('/user', Routes(router))
+
+
+//Server Setup
 
 const server = http.createServer(app)
 

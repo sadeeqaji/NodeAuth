@@ -22,30 +22,29 @@ const registerUser = userData => {
     });
 };
 
-
 const loginDetails = userData => {
-    UserModel.findOne({Name: userData.name}).then((data) => {
-        if(data.Name === userData.name){
-            return bcrypt.compare(userData.password, data.Password).then(isMatch => {
-                if(isMatch){
-                    const payload = {
-                        _id: data._id,
-                        Name: data.Name,
-                        expires: "300d"
-                    }
-                    const token = jwt.sign(payload, "Mustapha", {
-                        expiresIn: "300 d"
-                    })
-                    console.log(token)
-                   
-                }
-            })
-            .catch(err => {
-                console.log(err)
-            })
-              
-        }
-    })
-}
+  UserModel.findOne({ Name: userData.name }).then(data => {
+    if (data.Name === userData.name) {
+      return bcrypt
+        .compare(userData.password, data.Password)
+        .then(isMatch => {
+          if (isMatch) {
+            const payload = {
+              _id: data._id,
+              Name: data.Name,
+              expires: "300d"
+            };
+            const token = jwt.sign(payload, "Mustapha", {
+              expiresIn: "300 d"
+            });
+            console.log(token);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  });
+};
 
-module.exports = {registerUser, loginDetails};
+module.exports = { registerUser, loginDetails };
