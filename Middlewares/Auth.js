@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 
 
 const autheticate = (req, res, next) => {
-    const decoded = jwt.verify(req.headers["access-key"], "Mustapha")
+    const decoded = jwt.verify(req.headers["key"], "Mustapha")
     if(!decoded){
         // res.send("Please login")
         next()
@@ -22,7 +22,7 @@ const autheticate = (req, res, next) => {
 }
 
 const privilege = (req, res, next) => {
-    const decoded = jwt.verify(req.headers["access-key"], "Mustapha")
+    const decoded = jwt.verify(req.headers["key"], "Mustapha")
     if(decoded.Role == "user"){
         console.log("Not Authorized")
         next()

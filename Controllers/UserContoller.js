@@ -1,4 +1,4 @@
-const { registerUser, loginDetails } = require("../Services/UserServices");
+const { registerUser, loginDetails, deleteUser } = require("../Services/UserServices");
 
 module.exports = function userController() {
   this.registerUser = (req, res) => {
@@ -36,4 +36,21 @@ module.exports = function userController() {
         });
       });
   };
+
+  this.delete = (req, res) => {
+      deleteUser(req.params.id)
+      .then(deletedUser => {
+        res.send({
+          success: true,
+          message: "User deleted", user: deletedUser
+        })
+        .catch(error => {
+          res.send({
+            success: false,
+            message: "An error occured", error
+          })
+        })
+      })
+  }
+
 };

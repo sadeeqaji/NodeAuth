@@ -54,4 +54,14 @@ const loginDetails = userData => {
   });
 };
 
-module.exports = { registerUser, loginDetails };
+const deleteUser = (id) => {
+  return UserModel.findByIdAndDelete({_id: id})
+  .then(DeletedUser => {
+    return DeletedUser;
+  })
+  .catch(error => {
+    return error
+  })
+}
+
+module.exports = { registerUser, loginDetails, deleteUser };
