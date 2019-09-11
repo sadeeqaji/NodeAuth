@@ -20,6 +20,10 @@ const User = new Schema({
   DateCreated: {
     type: Date,
     default: Date
+  },
+  Role:{
+    type: String,
+    default: 'user'
   }
 });
 

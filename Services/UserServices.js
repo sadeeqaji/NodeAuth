@@ -4,40 +4,47 @@ const jwt = require("jsonwebtoken");
 
 const registerUser = userData => {
   let password;
-  const newUser = new UserModel({
-    Name: userData.name,
-    Email: userData.email,
-    PhoneNumber: userData.phoneNumber,
-    Password: userData.password
-  });
-
-  return bcrypt
-    .hash(userData.password, 10)
-    .then(salt => {
-      newUser.Password = salt;
-      return newUser.save();
-    })
-    .catch(error => {
-      console.log(error);
+  return UserModel.findOne({Name: userData.name}).then(user => {
+    if(user){
+      return "User exist";
+    }
+    const newUser = new UserModel({
+      Name: userData.name,
+      Email: userData.email,
+      PhoneNumber: userData.phoneNumber,
+      Password: userData.password
     });
+  
+     bcrypt
+      .hash(userData.password, 10)
+      .then(salt => {
+        newUser.Password = salt;
+        return newUser.save();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  })
+  
 };
 
 const loginDetails = userData => {
-  UserModel.findOne({ Name: userData.name }).then(data => {
-    if (data.Name === userData.name) {
+  return UserModel.findOne({ Name: userData.name }).then(user => {
+    if (user.Name === userData.name) {
       return bcrypt
-        .compare(userData.password, data.Password)
+        .compare(userData.password, user.Password)
         .then(isMatch => {
+          console.log(isMatch)
           if (isMatch) {
             const payload = {
-              _id: data._id,
-              Name: data.Name,
-              expires: "300d"
+              _id: user._id,
+              Name: user.Name,
+              Role: user.Role
             };
             const token = jwt.sign(payload, "Mustapha", {
-              expiresIn: "300 d"
+              expiresIn: "300"
             });
-            console.log(token);
+            return token;
           }
         })
         .catch(err => {

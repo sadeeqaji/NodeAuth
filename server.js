@@ -15,6 +15,12 @@ const port = process.env.Port || 5000
 
 //middlewares
 
+const SnapShot = (req, res, next) => {
+    console.log(req.url, req.method, new Date())
+    next()
+}
+
+app.use(SnapShot)
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
