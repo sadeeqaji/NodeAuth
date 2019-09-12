@@ -10,6 +10,6 @@ module.exports = function() {
   
   router.post("/",  userCtl.registerUser);
   router.post("/login", privilege, userCtl.login);
-  router.delete("/delete/:id", [autheticate, privilege], userCtl.delete)
+  router.delete("/delete/:id", autheticate, userCtl.delete)
   return router;
 };
